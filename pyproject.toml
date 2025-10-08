@@ -1,7 +1,7 @@
 [project]
-name = "g-retriever"
+name = "knowledge-rag"
 version = "0.11.0"
-description = "g-retriever"
+description = "knowledge-rag"
 requires-python = ">=3.12"
 
 dependencies = [
