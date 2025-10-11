@@ -27,6 +27,14 @@ url={https://openreview.net/forum?id=MPJ3oXtTZl}
 
 ## Environment setup
 ```
+
+
+ldd --version
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC
+
+
+
+
 conda create --name g_retriever python=3.9 -y
 conda activate g_retriever
 
@@ -74,12 +82,26 @@ pip install protobuf
 
 
 steps with UV:
+0. uv venv --python 3.12
 1. uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
 2. uv add torch==2.8.0
 3. uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.8.0+cu126.html
 4. uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.8.0+cu126.html
 
 uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.8.0+cu126.html
+
+uv add peft
+uv add pandas
+uv add ogb
+uv add transformers
+uv add wandb
+uv add sentencepiece
+uv add torch_geometric
+uv add datasets
+uv add pcst_fast
+uv add gensim
+uv add scipy
+uv add protobuf
 
 steps with CONDA:
 
