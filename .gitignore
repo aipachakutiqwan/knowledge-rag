@@ -72,3 +72,5 @@ wandb/
 
 
 .ipynb_checkpoints
+
+.env

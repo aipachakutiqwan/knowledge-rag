@@ -5,24 +5,17 @@ description = "knowledge-rag"
 requires-python = ">=3.12"
 
 dependencies = [
-    "datasets>=4.1.1",
-    "deepsnap",
-    "gensim>=4.3.2",
-    "ipywidgets>=8.1.7",
-    "matplotlib>=3.10.5",
-    "networkx>=3.5",
+    "datasets>=4.2.0",
+    "gensim>=4.3.3",
     "ogb>=1.3.6",
     "pandas>=2.3.3",
     "pcst-fast>=1.0.10",
     "peft>=0.17.1",
     "protobuf>=6.32.1",
-    "scikit-learn>=1.7.1",
-    "scipy==1.12",
+    "scipy>=1.13.1",
     "sentencepiece>=0.2.1",
-    #"torch-scatter>=2.1.2",
-    #"torch-sparse>=0.6.18",
-    "torch==2.8.0",
     "torch-geometric>=2.6.1",
+    "torchvision==0.21.0",
     "transformers>=4.57.0",
     "wandb>=0.22.2",
 ]
@@ -39,8 +32,8 @@ test = [
 ]
 
 [tool.uv.extra-build-dependencies]
-torch-sparse = ["torch==2.8.0"]
-torch-scatter = ["torch==2.8.0"]
+torch-sparse = ["torch==2.6.0+cu124"]
+torch-scatter = ["torch==2.6.0+cu124"]
 
 [build-system]
 requires = ["setuptools"]

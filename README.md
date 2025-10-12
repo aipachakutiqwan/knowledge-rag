@@ -24,17 +24,28 @@ year={2024},
 url={https://openreview.net/forum?id=MPJ3oXtTZl}
 }
 ```
+## Version tools
 
-## Environment setup
+python: 3.12
+cuda: 12.4 (verify with nvidia-smi command)
+torch: 2.6.0+cu124
+torchvision: 0.21.0
+
+## Environment setup using UV (Recommended)
+```
+uv venv --python 3.12
+source .venv/bin/activate
+
+uv pip install torch --index-url https://download.pytorch.org/whl/cu124
+uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
+uv pip install -r pyproject.toml --group dev
+
 ```
 
-
-ldd --version
-strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC
-
-
-
-
+## Environment setup (ORIGINAL)
+```
 conda create --name g_retriever python=3.9 -y
 conda activate g_retriever
 
@@ -45,28 +56,6 @@ python -c "import torch; print(torch.__version__)"
 python -c "import torch; print(torch.version.cuda)"
 pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.0.1+cu118.html
 
-uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.8.0+cu128.html
-
-
-
-
-(knowledge-rag) (base) jupyter@fsed-gpu:~/knowledge-rag$ nvcc --version
-nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2022 NVIDIA Corporation
-Built on Wed_Sep_21_10:33:58_PDT_2022
-Cuda compilation tools, release 11.8, V11.8.89
-Build cuda_11.8.r11.8/compiler.31833905_0
-
-
-2.7.0+cu126
-
-
-
-uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.7.0+cu126.html
-uv pip install torch-scatter -f https://data.pyg.org/whl/torch-2.7.0+cu126.html
-
-uv add torch torch-scatter torch-sparse torch-cluster torch-geometric
-
 pip install peft
 pip install pandas
 pip install ogb
@@ -79,57 +68,27 @@ pip install pcst_fast
 pip install gensim
 pip install scipy==1.12
 pip install protobuf
+```
 
+## Commandas for environment verification
+```
+ldd --version
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC
+nvcc --version
+ls -l /usr/local | grep cuda
+nvidia-smi
+python -c "import torch; print(torch.__version__)"
+python -c "import torch; print(torch.version.cuda)"
+```
 
-steps with UV:
-0. uv venv --python 3.12
-1. uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-2. uv add torch==2.8.0
-3. uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.8.0+cu126.html
-4. uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.8.0+cu126.html
+## Enviromental variables
 
-uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.8.0+cu126.html
-
-uv add peft
-uv add pandas
-uv add ogb
-uv add transformers
-uv add wandb
-uv add sentencepiece
-uv add torch_geometric
-uv add datasets
-uv add pcst_fast
-uv add gensim
-uv add scipy
-uv add protobuf
-
-steps with CONDA:
-
-conda create --name g_retriever python=3.12 -y
-conda activate g_retriever
-
-# https://pytorch.org/get-started/locally/
--- conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
--- conda install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
-
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.8.0+cu126.html
-
-pip install peft
-pip install pandas
-pip install ogb
-pip install transformers
-pip install wandb
-pip install sentencepiece
-pip install torch_geometric
-pip install datasets
-pip install pcst_fast
-pip install gensim
-pip install scipy==1.12
-pip install protobuf
-
+Create the file .env with these variables, setting your personal keys.
 
 ```
+export HF_TOKEN="SET_YOUR_KEY_HERE"
+```
+
 
 
 ## Download the Llama 2 Model
@@ -176,6 +135,9 @@ python inference.py --dataset expla_graphs --model_name inference_llm --llm_mode
 ```
 # prompt tuning
 python train.py --dataset scene_graphs_baseline --model_name pt_llm
+
+python train.py --dataset expla_graphs --model_name pt_llm
+
 
 # G-Retriever
 python train.py --dataset scene_graphs --model_name graph_llm
