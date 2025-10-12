@@ -24,8 +24,27 @@ year={2024},
 url={https://openreview.net/forum?id=MPJ3oXtTZl}
 }
 ```
+## Version tools
 
-## Environment setup
+python: 3.12
+cuda: 12.4 (verify with nvidia-smi command)
+torch: 2.6.0+cu124
+torchvision: 0.21.0
+
+## Environment setup using UV (Recommended)
+```
+uv venv --python 3.12
+source .venv/bin/activate
+
+uv pip install torch --index-url https://download.pytorch.org/whl/cu124
+uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
+uv pip install -r pyproject.toml --group dev
+
+```
+
+## Environment setup (ORIGINAL)
 ```
 conda create --name g_retriever python=3.9 -y
 conda activate g_retriever
@@ -50,6 +69,27 @@ pip install gensim
 pip install scipy==1.12
 pip install protobuf
 ```
+
+## Commandas for environment verification
+```
+ldd --version
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC
+nvcc --version
+ls -l /usr/local | grep cuda
+nvidia-smi
+python -c "import torch; print(torch.__version__)"
+python -c "import torch; print(torch.version.cuda)"
+```
+
+## Enviromental variables
+
+Create the file .env with these variables, setting your personal keys.
+
+```
+export HF_TOKEN="SET_YOUR_KEY_HERE"
+```
+
+
 
 ## Download the Llama 2 Model
 1. Go to Hugging Face: https://huggingface.co/meta-llama/Llama-2-7b-hf. You will need to share your contact information with Meta to access this model.
@@ -86,11 +126,18 @@ Replace path to the llm checkpoints in the `src/model/__init__.py`, then run
 ### 1) Inference-Only LLM
 ```
 python inference.py --dataset scene_graphs --model_name inference_llm --llm_model_name 7b_chat
+
+python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name 7b_chat
+
+
 ```
 ### 2) Frozen LLM + Prompt Tuning
 ```
 # prompt tuning
 python train.py --dataset scene_graphs_baseline --model_name pt_llm
+
+python train.py --dataset expla_graphs --model_name pt_llm
+
 
 # G-Retriever
 python train.py --dataset scene_graphs --model_name graph_llm

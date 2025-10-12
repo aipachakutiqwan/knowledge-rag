@@ -1,11 +1,11 @@
 [project]
-name = "g-retriever"
+name = "knowledge-rag"
 version = "0.11.0"
-description = "g-retriever"
+description = "knowledge-rag"
 requires-python = ">=3.12"
 
 dependencies = [
-    "datasets>=4.1.1",
+    "datasets>=4.2.0",
     "gensim>=4.3.3",
     "ogb>=1.3.6",
     "pandas>=2.3.3",
@@ -14,10 +14,8 @@ dependencies = [
     "protobuf>=6.32.1",
     "scipy>=1.13.1",
     "sentencepiece>=0.2.1",
-    "torch>=2.8.0",
     "torch-geometric>=2.6.1",
-    "torchaudio>=2.8.0",
-    "torchvision>=0.23.0",
+    "torchvision==0.21.0",
     "transformers>=4.57.0",
     "wandb>=0.22.2",
 ]
@@ -33,6 +31,9 @@ test = [
     "pytest-env>=1.1.3"
 ]
 
+[tool.uv.extra-build-dependencies]
+torch-sparse = ["torch==2.6.0+cu124"]
+torch-scatter = ["torch==2.6.0+cu124"]
 
 [build-system]
 requires = ["setuptools"]

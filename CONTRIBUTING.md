@@ -18,7 +18,7 @@ Based on [UV](https://docs.astral.sh/uv/getting-started/installation/)
 
 - Create Python environment
     ```bash
-    uv venv
+    uv venv --python 3.12
     ```
 - Activate environment
     ```bash
