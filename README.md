@@ -70,7 +70,7 @@ pip install scipy==1.12
 pip install protobuf
 ```
 
-## Commandas for environment verification
+## Commands for environment verification
 ```
 ldd --version
 strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC

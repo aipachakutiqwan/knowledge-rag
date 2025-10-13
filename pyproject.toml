@@ -12,7 +12,7 @@ dependencies = [
     "pcst-fast>=1.0.10",
     "peft>=0.17.1",
     "protobuf>=6.32.1",
-    "scipy>=1.13.1",
+    "scipy==1.12",
     "sentencepiece>=0.2.1",
     "torch-geometric>=2.6.1",
     "torchvision==0.21.0",

@@ -23,7 +23,7 @@ class ExplaGraphsDataset(Dataset):
     def __getitem__(self, index):
 
         text = self.text.iloc[index]
-        graph = torch.load(f'{PATH}/graphs/{index}.pt')
+        graph = torch.load(f'{PATH}/graphs/{index}.pt', weights_only=False)
         question = f'Argument 1: {text.arg1}\nArgument 2: {text.arg2}\n{self.prompt}'
         nodes = pd.read_csv(f'{PATH}/nodes/{index}.csv')
         edges = pd.read_csv(f'{PATH}/edges/{index}.csv')

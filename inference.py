@@ -34,8 +34,18 @@ def main(args):
 
     # Step 3: Build Model
     args.llm_model_path = llama_model_path[args.llm_model_name]
+    
+    print(f'PyTorch version: {torch.__version__}')
+    print(f'CUDA available: {torch.cuda.is_available()}')
+    if torch.cuda.is_available():
+        print(f'CUDA device count: {torch.cuda.device_count()}')
+        for i in range(torch.cuda.device_count()):
+            print(f'Device {i}: {torch.cuda.get_device_name(i)}')
+    else:
+        print('No CUDA devices found')
+    print(f"Loading model: {args.model_name}")
     model = load_model[args.model_name](graph=dataset.graph, graph_type=dataset.graph_type, args=args)
-
+    
     # Step 4. Evaluating
     os.makedirs(f'{args.output_dir}/{args.dataset}', exist_ok=True)
     path = f'{args.output_dir}/{args.dataset}/model_name_{args.model_name}_llm_model_name_{args.llm_model_name}_llm_frozen_{args.llm_frozen}_max_txt_len_{args.max_txt_len}_max_new_tokens_{args.max_new_tokens}_gnn_model_name_{args.gnn_model_name}_patience_{args.patience}_num_epochs_{args.num_epochs}_seed{seed}.csv'
