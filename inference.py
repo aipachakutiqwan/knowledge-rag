@@ -27,6 +27,8 @@ def main(args):
 
     dataset = load_dataset[args.dataset]()
     idx_split = dataset.get_idx_split()
+    print(f"idx_split: {idx_split}")
+    print(f"idx_split test: {idx_split['test']}")
 
     # Step 2: Build Node Classification Dataset
     test_dataset = [dataset[i] for i in idx_split['test']]

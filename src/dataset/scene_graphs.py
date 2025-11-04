@@ -29,6 +29,8 @@ class SceneGraphsDataset(Dataset):
         return len(self.questions)
 
     def __getitem__(self, index):
+        print(f"index: {index}")
+        print(f"self.questions: {self.questions}")
         data = self.questions.iloc[index]
         question = f'Question: {data["question"]}\n\nAnswer:'
         graph = torch.load(f'{cached_graph}/{index}.pt')
@@ -67,7 +69,7 @@ def preprocess():
         if os.path.exists(f'{cached_graph}/{index}.pt'):
             continue
         image_id = questions.iloc[index]['image_id']
-        graph = torch.load(f'{path_graphs}/{image_id}.pt')
+        graph = torch.load(f'{path_graphs}/{image_id}.pt', weights_only=False)
         nodes = pd.read_csv(f'{path_nodes}/{image_id}.csv')
         edges = pd.read_csv(f'{path_edges}/{image_id}.csv')
         subg, desc = retrieval_via_pcst(graph, q_embs[index], nodes, edges, topk=3, topk_e=3, cost_e=0.5)

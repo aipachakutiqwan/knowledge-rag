@@ -80,3 +80,6 @@ wandb/
 # datasets
 dataset/amazon/
 dataset/gqa/sceneGraphs/
+
+dataset/scene_graphs_full
+dataset/scene_graphs
