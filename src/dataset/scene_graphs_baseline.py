@@ -28,7 +28,7 @@ class SceneGraphsBaselineDataset(Dataset):
         question = f'Question: {data["question"]}\n\nAnswer:'
         nodes = pd.read_csv(f'{path_nodes}/{image_id}.csv')
         edges = pd.read_csv(f'{path_edges}/{image_id}.csv')
-        graph = torch.load(f'{path_graphs}/{image_id}.pt')
+        graph = torch.load(f'{path_graphs}/{image_id}.pt', weights_only=False)
         desc = nodes.to_csv(index=False)+'\n'+edges.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
 
         return {
