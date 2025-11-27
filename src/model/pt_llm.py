@@ -29,7 +29,7 @@ class PromptTuningLLM(torch.nn.Module):
         self.max_new_tokens = args.max_new_tokens
         num_virtual_tokens = args.llm_num_virtual_tokens
 
-        print('Loading LLAMA')
+        print(f"Loading LLM: {args.llm_model_path}")
         kwargs = {
             "max_memory": {0: '80GiB', 1: '80GiB'},
             "device_map": "auto",
@@ -47,11 +47,11 @@ class PromptTuningLLM(torch.nn.Module):
         )
 
         if args.llm_frozen == 'True':
-            print("Freezing LLAMA!")
+            print(f"Freezing LLM: {args.llm_model_path}")
             for name, param in model.named_parameters():
                 param.requires_grad = False
         else:
-            print("Training LLAMA with LORA!")
+            print(f"Training LLM with LORA!: {args.llm_model_path}")
             model = prepare_model_for_kbit_training(model)
 
             lora_r: int = 8
@@ -72,7 +72,7 @@ class PromptTuningLLM(torch.nn.Module):
             model = get_peft_model(model, config)
 
         self.model = model
-        print('Finish loading LLAMA!')
+        print(f"Finish loading LLM: {args.llm_model_path}")
 
         self.word_embedding = self.model.model.get_input_embeddings()
 

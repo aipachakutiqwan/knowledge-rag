@@ -17,5 +17,11 @@ dict_llm_model_path = {
     "13b": "meta-llama/Llama-2-13b-hf",
     "13b_chat": "meta-llama/Llama-2-13b-chat-hf",
     "gemma_7b": "google/gemma-7b",
-    "gemma_7b_chat": "google/gemma-7b-it"
+    "gemma_7b_it": "google/gemma-7b-it",
+    "mistral_7b": "mistralai/Mistral-7B-v0.1",
+    "mistral_7b_it": "mistralai/Mistral-7B-Instruct-v0.1",
+    "qwen3_8b": "Qwen/Qwen3-8B",
+    "qwen3_8b_it": "Qwen/Qwen3-8B",
+    "deepseek6_7b": "deepseek-ai/deepseek-coder-6.7b-base",
+    "deepseek6_7b_it": "deepseek-ai/deepseek-coder-6.7b-instruct"
 }

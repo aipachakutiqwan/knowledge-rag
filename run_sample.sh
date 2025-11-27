@@ -35,5 +35,5 @@ python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False  --gnn_model_name gin 
 
 # Gemma
-python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name gemma_7b_chat --max_txt_len 0  
+python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name gemma_7b_it --max_txt_len 0  
 python train.py --dataset expla_graphs --model_name pt_llm --llm_model_name gemma_7b  
