@@ -144,7 +144,7 @@ def generate_split():
 
 
 if __name__ == '__main__':
-    max_graphs = 100
+    max_graphs = 10
     image_ids = step_one(max_graphs)
     step_two(image_ids)
     generate_split()

@@ -8,7 +8,7 @@ import json
 import pandas as pd
 from src.utils.seed import seed_everything
 from src.config import parse_args_llama
-from src.model import load_model, llama_model_path
+from src.model import load_model, dict_llm_model_path
 from src.dataset import load_dataset
 from src.utils.evaluate import eval_funcs
 from src.utils.collate import collate_fn
@@ -33,7 +33,7 @@ def main(args):
     test_loader = DataLoader(test_dataset, batch_size=args.eval_batch_size, drop_last=False, pin_memory=True, shuffle=False, collate_fn=collate_fn)
 
     # Step 3: Build Model
-    args.llm_model_path = llama_model_path[args.llm_model_name]
+    args.llm_model_path = dict_llm_model_path[args.llm_model_name]
     
     print(f'PyTorch version: {torch.__version__}')
     print(f'CUDA available: {torch.cuda.is_available()}')
