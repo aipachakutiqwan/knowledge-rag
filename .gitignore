@@ -77,3 +77,16 @@ wandb/
 
 # vim
 *.swp
+
+.DS_Store
+
+# datasets
+dataset/amazon/
+dataset/gqa/sceneGraphs/
+
+dataset/scene_graphs_full
+dataset/scene_graphs
+!dataset/scene_graphs/questions.csv
+
+dataset/scene_graphs_k_hop/
+dataset/scene_graphs_pcst/

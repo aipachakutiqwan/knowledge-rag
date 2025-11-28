@@ -31,7 +31,7 @@ cuda: 12.4 (verify with nvidia-smi command)
 torch: 2.6.0+cu124
 torchvision: 0.21.0
 
-## Environment setup using UV (Recommended)
+## Environment setup using UV (Recommended - GPU)
 ```
 uv venv --python 3.12
 source .venv/bin/activate
@@ -43,6 +43,22 @@ uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_con
 uv pip install -r pyproject.toml --group dev
 
 ```
+
+## Environment setup using UV (Recommended - CPU local machine)
+```
+uv venv --python 3.12
+source .venv/bin/activate
+
+uv pip install torch torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
+uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+
+uv pip install pyg_lib  torch_cluster torch_spline_conv -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+uv pip install -r pyproject.toml --group dev
+
+
+```
+
 
 ## Environment setup (ORIGINAL)
 ```
@@ -154,3 +170,10 @@ python train.py --dataset scene_graphs --model_name graph_llm --llm_frozen False
 
 ## Reproducibility
 Use `run.sh` to run the codes and reproduce the published results in the main table.
+
+
+## Retrieval graphs implementation: scene graphs 
+
+python -m src.dataset.preprocess.scene_graphs_sample
+
+python -m src.dataset.scene_graphs_sample

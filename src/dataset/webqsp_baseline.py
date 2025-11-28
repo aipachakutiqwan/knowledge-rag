@@ -27,7 +27,7 @@ class WebQSPBaselineDataset(Dataset):
     def __getitem__(self, index):
         data = self.dataset[index]
         question = f'Question: {data["question"]}\nAnswer: '
-        graph = torch.load(f'{path_graphs}/{index}.pt')
+        graph = torch.load(f'{path_graphs}/{index}.pt', weights_only=False)
         nodes = pd.read_csv(f'{path_nodes}/{index}.csv')
         edges = pd.read_csv(f'{path_edges}/{index}.csv')
         desc = nodes.to_csv(index=False)+'\n'+edges.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
