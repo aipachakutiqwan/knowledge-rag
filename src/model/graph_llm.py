@@ -86,7 +86,7 @@ class GraphLLM(torch.nn.Module):
         self.projector = nn.Sequential(
             nn.Linear(args.gnn_hidden_dim, 2048),
             nn.Sigmoid(),
-            nn.Linear(2048, 4096),
+            nn.Linear(2048, 3072 if args.llm_model_name=="gemma_7b" else 4096),
         ).to(self.model.device)
 
         self.word_embedding = self.model.model.get_input_embeddings()
