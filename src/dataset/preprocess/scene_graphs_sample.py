@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
@@ -40,21 +41,26 @@ def textualize_graph(data):
     return nodes, edges
 
 
-def step_one(max_graphs):
+def step_one(sample_size: int, seed: int):
     dataset = json.load(open('dataset/gqa/train_sceneGraphs.json'))
 
     os.makedirs(path_nodes, exist_ok=True)
     os.makedirs(path_edges, exist_ok=True)
-    count = 0
+
+    # Randomly sample a subset of image ids
+    all_image_ids = list(dataset.keys())
+    sample_size = min(sample_size, len(all_image_ids))
+    np.random.seed(seed)
+    sampled_ids = np.random.choice(all_image_ids, size=sample_size, replace=False)
+
     image_ids = []
-    for imageid, object in tqdm(dataset.items(), total=len(dataset)):
-        node_attr, edge_attr = textualize_graph(object)
+    for imageid in tqdm(sampled_ids, total=len(sampled_ids)):
+        graph_obj = dataset[imageid]
+        node_attr, edge_attr = textualize_graph(graph_obj)
         pd.DataFrame(node_attr, columns=['node_id', 'node_attr']).to_csv(f'{path_nodes}/{imageid}.csv', index=False)
         pd.DataFrame(edge_attr, columns=['src', 'edge_attr', 'dst']).to_csv(f'{path_edges}/{imageid}.csv', index=False)
         image_ids.append(int(imageid))
-        count += 1
-        if count >= max_graphs:
-            break
+
     print(f"image_ids: {image_ids}")
     print(f"len of image_ids: {len(image_ids)}")
     return image_ids
@@ -143,8 +149,25 @@ def generate_split():
     test_df.index.to_series().to_csv(f'{path}/split/test_indices.txt', index=False, header=False)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Sample scene graphs and build graph data.")
+    parser.add_argument(
+        "--sample_size",
+        type=int,
+        default=10,
+        help="Number of scene graphs (image_ids) to sample.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="Random seed for numpy and splitting.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    max_graphs = 10
-    image_ids = step_one(max_graphs)
+    args = parse_args()
+    image_ids = step_one(args.sample_size, args.seed)
     step_two(image_ids)
     generate_split()
