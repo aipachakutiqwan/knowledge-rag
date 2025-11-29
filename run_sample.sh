@@ -1,50 +1,88 @@
-# 1) inference only: Using LLM for direct question answering
-## a) Question-Only
+# ExplaGraphs
+
+## 1) inference only: Using LLM for direct question answering
+### a) Question-Only
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name 7b_chat --max_txt_len 0
-## b) Textual Graph + Question
+### b) Textual Graph + Question
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name 7b_chat
 
-# 2) frozen llm + prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
-## a) prompt tuning
+## 2) frozen llm + prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+### a) prompt tuning
 python train.py --dataset expla_graphs --model_name pt_llm
-## b) g-retriever
+### b) g-retriever
 python train.py --dataset expla_graphs --model_name graph_llm
 
-# 3) tuned llm: Fine-tunning the LLM with LoRA
-## a) finetuning with lora
+## 3) tuned llm: Fine-tunning the LLM with LoRA
+### a) finetuning with lora
 python train.py --dataset expla_graphs --model_name llm --llm_frozen False
-## b) g-retriever + finetuning with lora
+### b) g-retriever + finetuning with lora
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False
 
-# GNN Architectures
-## GraphSAGE
+## GNN Architectures
+### GraphSAGE
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False  --gnn_model_name graphsage
-## GIN
+### GIN
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False  --gnn_model_name gin
 
-# LLM model comparisons
-## Gemma
-### a) Question-Only
+## LLM model comparisons
+### Gemma
+#### a) Question-Only
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name gemma_7b_it --max_txt_len 0
-### a) prompt tuning
+#### a) prompt tuning
 python train.py --dataset expla_graphs --model_name pt_llm  --llm_model_name gemma_7b
-### b) g-retriever
+#### b) g-retriever
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name gemma_7b
 
-## Mistral
-### a) Question-Only
+### Mistral
+#### a) Question-Only
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name mistral_7b_it --max_txt_len 0
-### b) g-retriever
+#### b) g-retriever
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name mistral_7b
 
-## Qwen
-### a) Question-Only
+### Qwen
+#### a) Question-Only
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name qwen3_8b_it --max_txt_len 0
-### b) g-retriever
+#### b) g-retriever
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name qwen3_8b
 
-## DeepSeek
-### a) Question-Only
+### DeepSeek
+#### a) Question-Only
 python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name deepseek6_7b_it --max_txt_len 0
-### b) g-retriever
+#### b) g-retriever
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name deepseek6_7b
+
+# Scene Graphs
+
+## 1) inference only: Using LLM for direct question answering
+### a) Question-Only
+python inference.py --dataset scene_graphs --model_name inference_llm --llm_model_name 7b_chat --max_txt_len 0  
+### b) Textual Graph + Question
+python inference.py --dataset scene_graphs --model_name inference_llm --llm_model_name 7b_chat  
+
+## 2) frozen llm + prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+### a) prompt tuning
+python train.py --dataset scene_graphs --model_name pt_llm 
+### b) g-retriever
+python train.py --dataset scene_graphs --model_name graph_llm 
+
+## 3) tuned llm: Fine-tunning the LLM with LoRA
+### a) finetuning with lora
+python train.py --dataset scene_graphs --model_name llm --llm_frozen False  
+### b) g-retriever + finetuning with lora
+python train.py --dataset scene_graphs --model_name graph_llm --llm_frozen False 
+
+# WebQSP
+
+## 1) inference only: Using LLM for direct question answering
+### a) Question-Only
+python inference.py --dataset webqsp --model_name inference_llm --llm_model_name 7b_chat --max_txt_len 0  
+### b) Textual Graph + Question
+python inference.py --dataset webqsp --model_name inference_llm --llm_model_name 7b_chat  
+
+## 2) frozen llm + prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+### a) prompt tuning
+python train.py --dataset webqsp --model_name pt_llm  
+### b) g-retriever
+python train.py --dataset webqsp --model_name graph_llm  
+### b) g-retriever + finetuning with lora
+python train.py --dataset webqsp --model_name graph_llm --llm_frozen False  
