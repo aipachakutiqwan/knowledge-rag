@@ -72,7 +72,7 @@ def plot_subgraph_sizes(sizes):
     plt.xticks(xticks)
     plt.ylabel('Number of subgraphs')
     plt.title('Distribution of Subgraph Sizes in Expla Graphs')
-    plt.savefig('expla_diameters.png')
+    plt.savefig('expla_sizes.png')
     plt.clf()
 
 graphs = extract_graphs(np.arange(len(os.listdir("expla_graphs/edges"))))
