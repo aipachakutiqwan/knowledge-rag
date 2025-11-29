@@ -16,10 +16,10 @@ path_edges = f'{path}/edges'
 path_graphs = f'{path}/graphs'
 
 
-def step_one(sample_size: int):
+def step_one(sample_size: int, seed: int):
     dataset = load_dataset("rmanluo/RoG-webqsp")
     print(f"dataset: {dataset}")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     print(f"dataset concatenated: {dataset}")
     os.makedirs(path_nodes, exist_ok=True)
     os.makedirs(path_edges, exist_ok=True)
@@ -43,10 +43,10 @@ def step_one(sample_size: int):
         edges.to_csv(f'{path_edges}/{i}.csv', index=False)
 
 
-def generate_split(sample_size: int):
+def generate_split(sample_size: int, seed: int):
 
     dataset = load_dataset("rmanluo/RoG-webqsp")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     train_indices = np.arange(len_train)
     val_indices = np.arange(len_val) + len_train
     test_indices = np.arange(len_test) + len_train + len_val
@@ -72,10 +72,10 @@ def generate_split(sample_size: int):
         file.write('\n'.join(map(str, test_indices)))
 
 
-def step_two(sample_size: int):
+def step_two(sample_size: int, seed: int):
     print('Loading dataset...')
     dataset = load_dataset("rmanluo/RoG-webqsp")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     questions = [i['question'] for i in dataset]
 
     model, tokenizer, device = load_model[model_name]()
@@ -106,7 +106,8 @@ def step_two(sample_size: int):
         pyg_graph = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(nodes))
         torch.save(pyg_graph, f'{path_graphs}/{index}.pt')
 
-def sample_dataset(dataset, sample_size: int):
+def sample_dataset(dataset, sample_size: int, seed: int):
+    np.random.seed(seed)
     train_size = min(sample_size, len(dataset['train']))
     val_size = min(sample_size, len(dataset['validation']))
     test_size = min(sample_size, len(dataset['test']))
@@ -130,14 +131,20 @@ def parse_args():
     parser.add_argument(
         "--sample_size",
         type=int,
-        default=100,
+        default=10,
         help="Number of examples to sample from each split (train/val/test).",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="Random seed for numpy sampling.",
     )
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_args()
-    step_one(args.sample_size)
-    step_two(args.sample_size)
-    generate_split(args.sample_size)
+    step_one(args.sample_size, args.seed)
+    step_two(args.sample_size, args.seed)
+    generate_split(args.sample_size, args.seed)
