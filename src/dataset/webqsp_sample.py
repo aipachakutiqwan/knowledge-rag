@@ -5,7 +5,6 @@ import numpy as np
 from torch.utils.data import Dataset
 import datasets
 from tqdm import tqdm
-from src.dataset.utils.retrieval import retrieval_via_pcst
 
 model_name = 'sbert'
 path = 'dataset/webqsp'
@@ -60,11 +59,21 @@ class WebQSPDataset(Dataset):
         return {'train': train_indices, 'val': val_indices, 'test': test_indices}
 
 
-def preprocess(sample_size: int, seed: int):
+def preprocess(sample_size: int, seed: int, retrieval_method: str):
     os.makedirs(cached_desc, exist_ok=True)
     os.makedirs(cached_graph, exist_ok=True)
     dataset = datasets.load_dataset("rmanluo/RoG-webqsp")
     dataset, len_train, len_val, len_test, train_sample, val_sample, test_sample = sample_dataset(dataset, sample_size, seed)
+
+    # Import the appropriate retrieval function based on method
+    if retrieval_method == 'pcst':
+        from src.dataset.utils.retrieval import retrieval_via_pcst as retrieval_func
+    elif retrieval_method == 'k_hop':
+        from src.dataset.utils.k_hop import retrieval_via_k_hop as retrieval_func
+    elif retrieval_method == 'ppr':
+        from src.dataset.utils.personalized_pagerank import retrieval_via_pagerank as retrieval_func
+    else:
+        raise ValueError(f"Unknown retrieval method: {retrieval_method}. Must be one of: 'pcst', 'k_hop', 'ppr'")
 
     q_embs = torch.load(f'{path}/q_embs.pt')
     for index in tqdm(range(len(dataset))):
@@ -78,7 +87,7 @@ def preprocess(sample_size: int, seed: int):
             continue
         graph = torch.load(f'{path_graphs}/{index}.pt', weights_only=False)
         q_emb = q_embs[index]
-        subg, desc = retrieval_via_pcst(graph, q_emb, nodes, edges, topk=3, topk_e=5, cost_e=0.5)
+        subg, desc = retrieval_func(graph, q_emb, nodes, edges, topk=3, topk_e=5, cost_e=0.5)
         torch.save(subg, f'{cached_graph}/{index}.pt')
         open(f'{cached_desc}/{index}.txt', 'w').write(desc)
 
@@ -117,11 +126,19 @@ if __name__ == '__main__':
         default=0,
         help="Random seed for numpy sampling. Must match preprocessing script.",
     )
+    parser.add_argument(
+        "--retrieval_method",
+        type=str,
+        default="pcst",
+        choices=["pcst", "k_hop", "ppr"],
+        help="Retrieval method to use for subgraph extraction. Options: 'pcst', 'k_hop', 'ppr'.",
+    )
     args = parser.parse_args()
 
     print(f"taking {args.sample_size} samples from each split")
     print(f"using seed {args.seed}")
-    preprocess(args.sample_size, args.seed)
+    print(f"using retrieval method: {args.retrieval_method}")
+    preprocess(args.sample_size, args.seed, args.retrieval_method)
 
     dataset = WebQSPDataset(args.sample_size, args.seed)
 

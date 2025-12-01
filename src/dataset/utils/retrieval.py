@@ -29,6 +29,7 @@ def retrieval_via_pcst(graph, q_emb, textual_nodes, textual_edges, topk=3, topk_
         e_prizes = torch.nn.CosineSimilarity(dim=-1)(q_emb, graph.edge_attr)
         topk_e = min(topk_e, e_prizes.unique().size(0))
 
+        # XXX(wenbli): Should this be sorted?
         topk_e_values, _ = torch.topk(e_prizes.unique(), topk_e, largest=True)
         e_prizes[e_prizes < topk_e_values[-1]] = 0.0
         last_topk_e_value = topk_e
