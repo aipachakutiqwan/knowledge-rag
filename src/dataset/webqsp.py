@@ -7,6 +7,7 @@ from tqdm import tqdm
 from src.dataset.utils.retrieval import retrieval_via_pcst
 from src.dataset.utils.personalized_pagerank import retrieval_via_pagerank
 from src.dataset.utils.k_hop import retrieval_via_k_hop
+from src.dataset.prompts.webqsp_template import PromptTemplates
 
 model_name = 'sbert'
 path = 'dataset/webqsp'
@@ -21,7 +22,7 @@ cached_desc = f'{path}/cached_desc'
 class WebQSPDataset(Dataset):
     def __init__(self):
         super().__init__()
-        self.prompt = 'Please answer the given question.'
+        self.prompt = PromptTemplates.system_instruction
         self.graph = None
         self.graph_type = 'Knowledge Graph'
         dataset = datasets.load_dataset("rmanluo/RoG-webqsp")
