@@ -99,6 +99,10 @@ python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm
 
 ### LLM Prompt Templates
 
-## frozen llm + prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+## frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
 python train.py --dataset webqsp --model_name pt_llm  
+
+
+## tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
+python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False 
 
