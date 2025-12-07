@@ -1,4 +1,5 @@
 import os
+import argparse
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
@@ -15,10 +16,10 @@ path_edges = f'{path}/edges'
 path_graphs = f'{path}/graphs'
 
 
-def step_one():
+def step_one(sample_size: int, seed: int):
     dataset = load_dataset("rmanluo/RoG-webqsp")
     print(f"dataset: {dataset}")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     print(f"dataset concatenated: {dataset}")
     os.makedirs(path_nodes, exist_ok=True)
     os.makedirs(path_edges, exist_ok=True)
@@ -42,10 +43,10 @@ def step_one():
         edges.to_csv(f'{path_edges}/{i}.csv', index=False)
 
 
-def generate_split():
+def generate_split(sample_size: int, seed: int):
 
     dataset = load_dataset("rmanluo/RoG-webqsp")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     train_indices = np.arange(len_train)
     val_indices = np.arange(len_val) + len_train
     test_indices = np.arange(len_test) + len_train + len_val
@@ -71,10 +72,10 @@ def generate_split():
         file.write('\n'.join(map(str, test_indices)))
 
 
-def step_two():
+def step_two(sample_size: int, seed: int):
     print('Loading dataset...')
     dataset = load_dataset("rmanluo/RoG-webqsp")
-    dataset, len_train, len_val, len_test = sample_dataset(dataset)
+    dataset, len_train, len_val, len_test = sample_dataset(dataset, sample_size, seed)
     questions = [i['question'] for i in dataset]
 
     model, tokenizer, device = load_model[model_name]()
@@ -105,18 +106,47 @@ def step_two():
         pyg_graph = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(nodes))
         torch.save(pyg_graph, f'{path_graphs}/{index}.pt')
 
+def sample_dataset(dataset, sample_size: int, seed: int):
+    np.random.seed(seed)
+    train_size = min(sample_size, len(dataset['train']))
+    val_size = min(sample_size, len(dataset['validation']))
+    test_size = min(sample_size, len(dataset['test']))
 
-def sample_dataset(dataset):
-    train_sample = dataset['train'].select(range(min(1, len(dataset['train']))))
-    val_sample = dataset['validation'].select(range(min(1, len(dataset['validation']))))
-    test_sample = dataset['test'].select(range(min(1, len(dataset['test']))))
+    train_indices = np.random.choice(len(dataset['train']), size=train_size, replace=False)
+    val_indices = np.random.choice(len(dataset['validation']), size=val_size, replace=False)
+    test_indices = np.random.choice(len(dataset['test']), size=test_size, replace=False)
+
+    train_sample = dataset['train'].select(train_indices)
+    val_sample = dataset['validation'].select(val_indices)
+    test_sample = dataset['test'].select(test_indices)
     len_train = len(train_sample)
     len_val = len(val_sample)
     len_test = len(test_sample)
     dataset = concatenate_datasets([train_sample, val_sample, test_sample])
     return dataset, len_train, len_val, len_test
 
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Sample WebQSP dataset and build graph data.")
+    parser.add_argument(
+        "--sample_size",
+        type=int,
+        default=50,
+        help="Number of examples to sample from each split (train/val/test).",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="Random seed for numpy sampling.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    step_one()
-    step_two()
-    generate_split()
+    args = parse_args()
+    print(f"taking {args.sample_size} samples from each split")
+    print(f"using seed {args.seed}")
+    step_one(args.sample_size, args.seed)
+    step_two(args.sample_size, args.seed)
+    generate_split(args.sample_size, args.seed)

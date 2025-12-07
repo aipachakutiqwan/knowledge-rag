@@ -104,11 +104,13 @@ def retrieval_via_k_hop(graph, q_emb, textual_nodes, textual_edges, topk=3, topk
 
     # Extract textual information
     n = textual_nodes.iloc[selected_nodes]
-    if len(selected_edges) > 0:
-        e = textual_edges.iloc[selected_edges]
-        desc = n.to_csv(index=False) + '\n' + e.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
-    else:
-        desc = n.to_csv(index=False) + '\n' + textual_edges.iloc[0:0].to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
+    #if len(selected_edges) > 0:
+    #    e = textual_edges.iloc[selected_edges]
+    #    desc = n.to_csv(index=False) + '\n' + e.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
+    #else:
+    #    desc = n.to_csv(index=False) + '\n' + textual_edges.iloc[0:0].to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
+    e = textual_edges.iloc[selected_edges]
+    desc = n.to_csv(index=False)+'\n'+e.to_csv(index=False, columns=['src', 'edge_attr', 'dst'])
 
     # Create node mapping for relabeling
     mapping = {n: i for i, n in enumerate(selected_nodes.tolist())}
@@ -122,12 +124,14 @@ def retrieval_via_k_hop(graph, q_emb, textual_nodes, textual_edges, topk=3, topk
         dst = [mapping[i] for i in edge_index[1].tolist()]
         edge_index = torch.LongTensor([src, dst])
     else:
-        # Create empty edge_attr with same shape as original
-        if graph.num_edges > 0 and hasattr(graph.edge_attr, 'shape') and len(graph.edge_attr.shape) > 1:
-            edge_attr = torch.empty(0, graph.edge_attr.shape[1], dtype=graph.edge_attr.dtype, device=graph.edge_attr.device)
-        else:
-            edge_attr = torch.empty(0, dtype=graph.edge_attr.dtype if graph.num_edges > 0 else torch.float32, device=graph.edge_attr.device if graph.num_edges > 0 else None)
-        edge_index = torch.empty((2, 0), dtype=torch.long)
+        ## Create empty edge_attr with same shape as original
+        #if graph.num_edges > 0 and hasattr(graph.edge_attr, 'shape') and len(graph.edge_attr.shape) > 1:
+        #    edge_attr = torch.empty(0, graph.edge_attr.shape[1], dtype=graph.edge_attr.dtype, device=graph.edge_attr.device)
+        #else:
+        #    edge_attr = torch.empty(0, dtype=graph.edge_attr.dtype if graph.num_edges > 0 else torch.float32, device=graph.edge_attr.device if graph.num_edges > 0 else None)
+        #edge_index = torch.empty((2, 0), dtype=torch.long)
+        edge_index = []
+        edge_attr = []
     
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, num_nodes=len(selected_nodes))
 
