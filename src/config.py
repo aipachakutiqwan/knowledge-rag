@@ -44,5 +44,7 @@ def parse_args_llama():
     parser.add_argument("--gnn_num_heads", type=int, default=4)
     parser.add_argument("--gnn_dropout", type=float, default=0.0)
 
+    parser.add_argument("--extra_annotation", type=str, default="")
+
     args = parser.parse_args()
     return args

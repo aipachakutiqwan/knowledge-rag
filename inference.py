@@ -48,7 +48,9 @@ def main(args):
     
     # Step 4. Evaluating
     os.makedirs(f'{args.output_dir}/{args.dataset}', exist_ok=True)
-    path = f'{args.output_dir}/{args.dataset}/model_name_{args.model_name}_llm_model_name_{args.llm_model_name}_llm_frozen_{args.llm_frozen}_max_txt_len_{args.max_txt_len}_max_new_tokens_{args.max_new_tokens}_gnn_model_name_{args.gnn_model_name}_patience_{args.patience}_num_epochs_{args.num_epochs}_seed{seed}.csv'
+    if args.extra_annotation:
+        args.extra_annotation = "_" + args.extra_annotation
+    path = f'{args.output_dir}/{args.dataset}/model_name_{args.model_name}_llm_model_name_{args.llm_model_name}_llm_frozen_{args.llm_frozen}_max_txt_len_{args.max_txt_len}_max_new_tokens_{args.max_new_tokens}_gnn_model_name_{args.gnn_model_name}_patience_{args.patience}_num_epochs_{args.num_epochs}_seed{seed}{args.extra_annotation}.csv'
     print(f'path: {path}')
 
     model.eval()
