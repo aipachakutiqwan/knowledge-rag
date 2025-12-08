@@ -19,25 +19,25 @@ Our research systematically investigates the G-Retriever architecture. The core 
 
 ### 🌱  Create an environment and install dependencies
 
-Check out the **Managing dependencies** section of the Contributing guide to learn how to set up the environment and install dependencies.
+Check out the **Managing dependencies** section of the **Contributing** guide to learn how to set up the environment and install dependencies.
 
 ### 🌱 Setting up env variables
 
 You can use `.env` file for set the following enviromental variables. 
 Create account in [Hugging Face](https://huggingface.co/settings/tokens) and get your token from [here](https://huggingface.co/settings/tokens).
 ```
-export HF_TOKEN="SET_YOUR_KEY_HERE" # Hugging Face token
+export HF_TOKEN="SET_YOUR_KEY_HERE"
 ```
 
 ## :pushpin: Version tools
 
-The project was implemented with the following versions:
+The project was developed and tested using the following key software versions:
 - python: 3.12
 - cuda: 12.4 
 - torch: 2.6.0+cu124
 - torchvision: 0.21.0
 
-Run the following command to verify the versions:
+Use the following commands to confirm your installed versions match the required dependencies:
 ```
 nvidia-smi
 python -c "import torch; print(torch.__version__)"
@@ -118,52 +118,6 @@ We propose a novel model architecture that integrates prompt tuning and G-Retrie
 
 
 
-## :pushpin: Version tools
-
-python: 3.12
-cuda: 12.4 (verify with nvidia-smi command)
-torch: 2.6.0+cu124
-torchvision: 0.21.0
-
-## Environment setup using UV (Recommended - GPU)
-```
-uv venv --python 3.12
-source .venv/bin/activate
-
-uv pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
-uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
-uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
-uv pip install pyg_lib torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
-
-uv pip install -r pyproject.toml --group dev
-
-```
-
-## Environment setup using UV (Recommended - CPU local machine)
-```
-uv venv --python 3.12
-source .venv/bin/activate
-
-uv pip install torch torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
-uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
-uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
-uv pip install pyg_lib  torch_cluster torch_spline_conv -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
-uv pip install -r pyproject.toml --group dev
-
-
-```
-
-
-## Commands for environment verification
-```
-ldd --version
-strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBC
-nvcc --version
-ls -l /usr/local | grep cuda
-nvidia-smi
-python -c "import torch; print(torch.__version__)"
-python -c "import torch; print(torch.version.cuda)"
-```
 
 ## Data Preprocessing
 ```
