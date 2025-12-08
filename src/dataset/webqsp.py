@@ -100,21 +100,21 @@ if __name__ == '__main__':
     parser.add_argument(
         "--tele_mode",
         type=str,
-        default=None,
+        default="proportional",
         choices=["proportional", "top_k"],
-        help="Teleport mode for PPR retrieval. Only used when retrieval_method='ppr'. Options: 'proportional', 'top_k'.",
+        help="Teleport mode for PPR retrieval. Only used when retrieval_method='ppr'. Options: 'proportional', 'top_k'. Default: 'proportional'.",
     )
     parser.add_argument(
         "--pcst",
         action="store_true",
-        help="Use PCST mode for PPR retrieval. Only used when retrieval_method='ppr'.",
+        help="Use PCST mode for PPR retrieval. Only used when retrieval_method='ppr'. Default: False.",
     )
     parser.add_argument(
         "--prize_allocation",
         type=str,
-        default=None,
+        default="linear",
         choices=["linear", "equal", "exponential"],
-        help="Prize allocation mode. Used when retrieval_method='pcst' or when retrieval_method='ppr' with tele_mode='top_k' or when retrieval_method='ppr' with pcst=True. Options: 'linear', 'equal', 'exponential'. Defaults to 'linear' if not specified.",
+        help="Prize allocation mode. Used when retrieval_method='pcst' or when retrieval_method='ppr' with tele_mode='top_k' or when retrieval_method='ppr' with pcst=True. Options: 'linear', 'equal', 'exponential'. Default: 'linear'.",
     )
     args = parser.parse_args()
 
