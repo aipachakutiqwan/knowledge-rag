@@ -12,7 +12,7 @@ Designed for real-world, textual graphs, this flexible Question Answering framew
 
 ## ⚡ Ablative Analysis
 
-Our research systematically investigates the G-Retriever architecture: [![arXiv](https://img.shields.io/badge/arXiv-2402.07630-b31b1b.svg)](https://arxiv.org/abs/2402.07630). 
+Our research systematically investigates the G-Retriever architecture ([![arXiv](https://img.shields.io/badge/arXiv-2402.07630-b31b1b.svg)](https://arxiv.org/abs/2402.07630)). 
 The core focus is an ablation analysis to rigorously quantify how modifications to the system's components impact the overall effectiveness and performance of the Knowledge Graph conversational system. 
 
 
