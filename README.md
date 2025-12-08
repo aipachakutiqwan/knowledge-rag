@@ -19,13 +19,13 @@ Our research systematically investigates the G-Retriever architecture. The core 
 
 ### 🌱  Create an environment and install dependencies
 
-Check out the Contributing guide to learn how to set up the environment, install dependencies, and get started contributing to this repository.
+Check out the **Managing dependencies** section of the Contributing guide to learn how to set up the environment and install dependencies.
 
 ### 🌱 Setting up env variables
 
 You can use `.env` file for set the following enviromental variables.
 ```
-export HF_TOKEN="SET_YOUR_KEY_HERE"
+export HF_TOKEN="SET_YOUR_KEY_HERE" # Hugging Face token
 ```
 
 
@@ -84,11 +84,8 @@ We propose a novel model architecture that integrates prompt tuning and G-Retrie
 
 
 
+## :pushpin: Version tools
 
-
-
-
-## Version tools
 
 python: 3.12
 cuda: 12.4 (verify with nvidia-smi command)
@@ -100,10 +97,11 @@ torchvision: 0.21.0
 uv venv --python 3.12
 source .venv/bin/activate
 
-uv pip install torch --index-url https://download.pytorch.org/whl/cu124
+uv pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
 uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
 uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
-uv pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
+uv pip install pyg_lib torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
+
 uv pip install -r pyproject.toml --group dev
 
 ```
@@ -116,7 +114,6 @@ source .venv/bin/activate
 uv pip install torch torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
 uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
 uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
-
 uv pip install pyg_lib  torch_cluster torch_spline_conv -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
 uv pip install -r pyproject.toml --group dev
 
