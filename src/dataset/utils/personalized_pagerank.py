@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from torch_geometric.data.data import Data
 import functools
-from .retrieval import run_pcst
+from .retrieval_with_prize_allocation import run_pcst
 from .retrieval_func_selector import TeleportMode, PrizeAllocation
 
 
