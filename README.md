@@ -104,6 +104,7 @@ python train.py --dataset webqsp --model_name graph_llm --llm_frozen False  --gn
 ## GIN
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False  --gnn_model_name gin
 python train.py --dataset webqsp --model_name graph_llm --llm_frozen False  --gnn_model_name gin
+
 ```
 - [GraphSAGE benchmarking for ExplaGraphs](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/GraphSAGE-ExplaGraphs--VmlldzoxNTI0ODY2Nw?accessToken=t7s1tqhv0wru55i1jbp9dzatl2gdexjg80pupj0wa9qijvga7bwc3onmfsdeusba)
 - [GraphSAGE benchmarking for WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/GraphSAGE-WebQSP--VmlldzoxNTI0ODk2OA?accessToken=rl84ivm79vt5cufdob8ajvne7ecrjpwlxardi18u8uzqc1ugo75uoccguuntbef9)
@@ -143,6 +144,7 @@ python inference.py --dataset expla_graphs --model_name inference_llm --llm_mode
 #### b) Tuned llm: g-retriever + finetuning with lora
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name deepseek6_7b
 python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm_model_name deepseek6_7b
+
 ```
 - [ExplaGraphs Inference only in Instructed LLMs](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/ExplaGraphs-LLMs-Inference-Only--VmlldzoxNTI3MzYwNA?accessToken=cf2k9lbvlaz8m7l7pm7j9vs3ku0f62chk94eotd2uy5j3ufqw82wg28uynyrnam8)
 - [Diverse LLM Tuning: G-retriever + finetuning with Lora in ExplaGraphs](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/ExplaGraphs-LLMs-G-Retriever-Lora--VmlldzoxNTI3MzUwMw?accessToken=bge6arszopkqssgseocg4mpu74nkbs1tgw2pzwzyeohdgltm03qm1xo82hgy6inm)
@@ -153,7 +155,7 @@ We implemented a specific system prompt template and measured its effect on perf
 
 ```
 ## LLM Prompt Templates
-### frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+### Frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
 python train.py --dataset webqsp --model_name pt_llm  
 
 ```
@@ -164,7 +166,8 @@ We propose a novel model architecture that integrates prompt tuning and G-Retrie
 
 ```
 ## New Graph RAG Model Architecture
-### tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
+### Tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
 python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False 
+
 ```
 - [GraphLLMPromptTuning model using WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Tuning-G-Retriever-LLM-LoRA--VmlldzoxNTI4NTM4NQ?accessToken=y16u59kzx8o5335rwzjqsjfr6bb7zfstfc044w8m8vxeaiai7q4ms3krft1jp3u9)
