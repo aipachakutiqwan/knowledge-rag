@@ -98,11 +98,10 @@ python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False
 python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm_model_name deepseek6_7b
 
 ### LLM Prompt Templates
-
-## frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
+#### frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
 python train.py --dataset webqsp --model_name pt_llm  
 
-
-## tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
+### New Graph RAG Model Architecture
+#### tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
 python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False 
 

@@ -16,6 +16,10 @@ Below are the tools used during development. Please ensure that you always **sta
 
 Based on [UV](https://docs.astral.sh/uv/getting-started/installation/)
 
+- Install UV Package manager
+    ```bash
+    pip install uv
+    ```
 - Create Python environment
     ```bash
     uv venv --python 3.12
@@ -24,20 +28,24 @@ Based on [UV](https://docs.astral.sh/uv/getting-started/installation/)
     ```bash
     source .venv/bin/activate
     ```
+- Install Pytorch and Pytorch Geometric libraries for GPU (CUDA 12.4)
+    ```bash
+    uv pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+    uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+    uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cu124.html
+    uv pip install pyg_lib torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.6.0+cu124.html
+    ```
+- If you intend to run using CPU, install Pytorch and Pytorch Geometric libraries for CPU. Running on a CPU is only recommended for use with small or sample datasets.
+    ```bash
+    uv pip install torch torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
+    uv pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+    uv pip install torch_sparse -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+    uv pip install pyg_lib  torch_cluster torch_spline_conv -f https://pytorch-geometric.com/whl/torch-2.6.0+cpu.html
+    ```
 - Install Python libraries
     ```bash
     uv pip install -r pyproject.toml --group dev
-    uv pip install "mcp[cli]"
     ```
-- Add new library. (e.g mcp)
-    ```bash
-    uv add "mcp[cli]"
-    ```
-- Remove Python libraries
-    ```bash
-    uv remove pandas
-    ```
-  
 
 #### 🌱 Initializing pre-commit
 
@@ -93,8 +101,7 @@ Based on [Poe The Poet](https://poethepoet.natn.io/index.html)
 
 Here are the steps to create a Pull Request.
 
-- Make your code contributions in a dedicated feature branch (**created from "main" branch**).
-
+- Fork the repository and make your code contributions in a dedicated feature branch (**created from "main" branch**).
 - Run the linter to check the code content.
     ```bash
     poe lint
@@ -114,4 +121,3 @@ Here are the steps to create a Pull Request.
 - If the previous step was successful, push your code and create a pull request to the "main" branch for code review.
 
 
-## :pushpin: Next steps
