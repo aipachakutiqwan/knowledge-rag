@@ -57,19 +57,23 @@ python -c "import torch; print(torch.version.cuda)"
 
 ## ✅ How to replicate the ablative analysis
 
+The ablative analysis is presented section-by-section. For each analysis, we provide a concise overview of its focus, followed by the specific command-line instruction necessary to successfully replicate the experiment and its results.
+
 ## 🔭 Data Preprocessing:
+
+Prior to running the ablative analysis, the dataset requires preprocessing. This essential step includes textualizing the graph nodes and edges, embedding the questions, and then saving the resulting graphs in the PyTorch Geometric Data format. Finally, the dataset must be correctly split into train, validation, and test sets. Use the below commands to preprocess the datasets.
+
 ```
 # expla_graphs
 python -m src.dataset.preprocess.expla_graphs
 python -m src.dataset.expla_graphs
 
+
 # scene_graphs
 python -m src.dataset.preprocess.scene_graphs
-python -m src.dataset.scene_graphs
 
 # webqsp
 python -m src.dataset.preprocess.webqsp
-python -m src.dataset.webqsp
 
 ```
 
@@ -78,6 +82,14 @@ python -m src.dataset.webqsp
 We implemented two subgraph retrieval methods, K-hop and Personalized PageRank (PPR), and evaluated their performance using the ExplaGraphs and WebQSP datasets.
 
 ```
+# expla_graphs
+python -m src.dataset.expla_graphs
+
+# scene_graphs
+python -m src.dataset.scene_graphs
+
+# webqsp
+python -m src.dataset.webqsp
 
 ```
 ## 🔭 Varying Subgraph Encoder Type:
