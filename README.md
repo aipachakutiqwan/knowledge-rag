@@ -42,10 +42,10 @@ Testing and implementation of this project were conducted on a system featuring 
 
 Key software versions used:
 
-- python: 3.12
-- cuda: 12.4 
-- torch: 2.6.0+cu124
-- torchvision: 0.21.0
+- Python: 3.12
+- Cuda: 12.4 
+- Torch: 2.6.0+cu124
+- Torchvision: 0.21.0
 
 Use the following commands to confirm your installed versions match the required dependencies:
 ```
@@ -57,7 +57,7 @@ python -c "import torch; print(torch.version.cuda)"
 
 ## ✅ How to replicate the ablative analysis
 
-The ablative analysis is presented section-by-section. For each analysis, we provide a concise overview of its focus, followed by the specific command-line instruction necessary to successfully replicate the experiment and its results.
+The ablative analysis is presented section-by-section. For each analysis, we provide a concise overview of its focus, followed by the specific command-line instruction necessary to successfully replicate the experiment and a link in Weights&Biases to its results.
 
 ## 🔭 Data Preprocessing:
 
