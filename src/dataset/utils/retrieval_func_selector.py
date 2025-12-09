@@ -34,13 +34,13 @@ def get_retrieval_func(retrieval_method: str, tele_mode: str = None, pcst: bool 
     """
     # Validate parameters based on retrieval_method
     if retrieval_method == 'k_hop':
-        if tele_mode is not None:
-            raise ValueError(f"tele_mode must be None when retrieval_method='k_hop', but got: {tele_mode}")
-        if prize_allocation is not None:
-            raise ValueError(f"prize_allocation must be None when retrieval_method='k_hop', but got: {prize_allocation}")
+        if tele_mode:
+            raise ValueError(f"tele_mode must be None or False when retrieval_method='k_hop', but got: {tele_mode}")
+        if prize_allocation:
+            raise ValueError(f"prize_allocation must be None or False when retrieval_method='k_hop', but got: {prize_allocation}")
     elif retrieval_method == 'pcst':
-        if tele_mode is not None:
-            raise ValueError(f"tele_mode must be None when retrieval_method='pcst', but got: {tele_mode}")
+        if tele_mode:
+            raise ValueError(f"tele_mode must be None or False when retrieval_method='pcst', but got: {tele_mode}")
     
     if retrieval_method == 'pcst':
         from src.dataset.utils.retrieval_with_prize_allocation import retrieval_via_pcst_fn
@@ -92,9 +92,9 @@ def get_retrieval_func(retrieval_method: str, tele_mode: str = None, pcst: bool 
                     raise ValueError(f"Unknown prize_allocation: {prize_allocation}. Must be one of: {list(prize_allocation_map.keys())}")
                 prize_allocation_enum = prize_allocation_map[prize_allocation]
         else:
-            # If tele_mode is PROPORTIONAL and pcst is False, prize_allocation must be None
-            if prize_allocation is not None:
-                raise ValueError(f"prize_allocation must be None when retrieval_method='ppr' with tele_mode='proportional' and pcst=False, but got: {prize_allocation}")
+            # If tele_mode is PROPORTIONAL and pcst is False, prize_allocation must be None or False
+            if prize_allocation:
+                raise ValueError(f"prize_allocation must be None or False when retrieval_method='ppr' with tele_mode='proportional' and pcst=False, but got: {prize_allocation}")
             prize_allocation_enum = None
 
         return retrieval_via_pagerank_fn(pcst, tele_mode_enum, prize_allocation_enum)
