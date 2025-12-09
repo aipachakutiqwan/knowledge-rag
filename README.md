@@ -62,7 +62,7 @@ Each component of the ablative analysis is presented in its own dedicated sectio
 - **The specific command needed for execution**.
 - **A W&B link to access the live metrics, logs, and definitive results**.
 
-## 🔭 Data Preprocessing:
+### 🔭 Data Preprocessing:
 
 Prior to running the ablative analysis, the dataset requires preprocessing. This essential step includes textualizing the graph nodes and edges, embedding the questions, and then saving the resulting graphs in the PyTorch Geometric Data format. Finally, the dataset must be correctly split into train, validation, and test sets. Use the below commands to preprocess the datasets.
 
@@ -80,7 +80,7 @@ python -m src.dataset.preprocess.webqsp
 ```
 
 
-## 🔭 Varying Subgraph Retrieval Methods: 
+### 🔭 Varying Subgraph Retrieval Methods: 
 We implemented two subgraph retrieval methods, K-hop and Personalized PageRank (PPR), and evaluated their performance using the SceneGraphs and WebQSP datasets.
 
 ```
@@ -93,7 +93,7 @@ python -m src.dataset.webqsp --retrieval_method k-hop
 python -m src.dataset.webqsp --retrieval_method k-hop
 
 ```
-## 🔭 Varying Subgraph Encoder Type:
+### 🔭 Varying Subgraph Encoder Type:
 We implemented two graph neural network (GNN) architectures for the G-retriever architecture, GraphSAGE and the Graph Isomorphism Network (GIN), and evaluated their performance using the ExplaGraphs and WebQSP benchmark datasets.
 
 ```
@@ -112,7 +112,7 @@ python train.py --dataset webqsp --model_name graph_llm --llm_frozen False  --gn
 - [GIN benchmarking for WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/GIN-WebQSP--VmlldzoxNTI1OTYwNg?accessToken=shf3cmrptkodzfsfskwpuv7au6vfz4n35n7e3l4w59y03982yu4xmfgqujgx05uq)
 
 
-## 🔭 Varying LLM Models:
+### 🔭 Varying LLM Models:
 We benchmarked a set of large language models (LLMs) with similar feature dimensions to Llama-2–7b-hf, including Gemma-7b, Mistral-7B-v0.1, Qwen-8B, and Deepseek-Coder-6.7b-base. Evaluation was performed using two representative datasets, ExplaGraphs and WebQSP, along with their respective LLM-instructed variants.
 
 ```
@@ -150,7 +150,7 @@ python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm
 - [Diverse LLM Tuning: G-retriever + finetuning with Lora in ExplaGraphs](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/ExplaGraphs-LLMs-G-Retriever-Lora--VmlldzoxNTI3MzUwMw?accessToken=bge6arszopkqssgseocg4mpu74nkbs1tgw2pzwzyeohdgltm03qm1xo82hgy6inm)
 - [Diverse LLM Tuning: G-retriever + finetuning with Lora in WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-LLMs-G-Retriever-Lora--VmlldzoxNTI4MjIyMQ?accessToken=pizj2pshzwmc8q87xgdkqwawn1qn7ldmczewnwaxwyi80tu4jk6809v5q7t0cwmx)
 
-## 🔭 Prompt Tuning:
+### 🔭 Prompt Tuning:
 We implemented a specific system prompt template and measured its effect on performance when applied to the WebQSP knowledge graph question answering dataset.
 
 ```
@@ -161,13 +161,24 @@ python train.py --dataset webqsp --model_name pt_llm
 ```
 - [Prompt template tuning WebQSP with LLM frozen](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Template-Frozen-LLM-Prompt-Tuning---VmlldzoxNTI4NDgzMg?accessToken=qletj0g7494img4qg28sodj3ma59a82xblsq1z12tv22urgz8gev3nawfs1ahb6y)
 
-## 🔭 New Graph RAG Model Architecture:
-We propose a novel model architecture that integrates prompt tuning and G-Retriever with LoRA-based Large Language Model (LLM) fine-tuning. We then measure its performance using the WebQSP knowledge graph question answering dataset.
+### 🔭 New Graph RAG Model configuration:
+We propose a novel model configuration that integrates prompt tuning and G-Retriever with LoRA-based Large Language Model (LLM) fine-tuning. We then measure its performance using the WebQSP knowledge graph question answering dataset.
 
 ```
-## New Graph RAG Model Architecture
+## New Graph RAG Model configuration
 ### Tuned llm: g-retriever + finetuning with lora + prompt tuning: Fine-tunning the LLM with LoRA and prompt tuning
 python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False 
 
 ```
 - [GraphLLMPromptTuning model using WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Tuning-G-Retriever-LLM-LoRA--VmlldzoxNTI4NTM4NQ?accessToken=y16u59kzx8o5335rwzjqsjfr6bb7zfstfc044w8m8vxeaiai7q4ms3krft1jp3u9)
+
+## 🔥 Demo in sample dataset:
+
+Because the full ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo simulates the analysis on a sample dataset using a Colab instance equipped with an A100 80GB GPU.
+
+The Colab notebook is available here: 
+<table align="center">
+  <td>
+    <a target="_blank" href="https://colab.research.google.com/github/google-gemini/cookbook/blob/main/gemini-2/video_understanding.ipynb"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
+  </td>
+</table>
