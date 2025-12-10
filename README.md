@@ -164,7 +164,7 @@ python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False
 
 ## 🔥 Demo in sample dataset:
 
-Because the full ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo simulates the analysis on a sample dataset using a Colab instance equipped with an A100 80GB GPU.
+Because the full ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo simulates the analysis **Varying Subgraph Retrieval Methods** on a sample dataset using a Colab instance equipped with one A100 80GB GPU.
 
 The Colab notebook is available here: 
 <table align="center">
