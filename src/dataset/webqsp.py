@@ -33,6 +33,18 @@ class WebQSPDataset(Dataset):
         """Return the len of the dataset."""
         return len(self.dataset)
 
+    def __contains__(self, index):
+        """Check if an index is in the dataset. Returns False if any error occurs."""
+        try:
+            # Check index is in valid range
+            if not (0 <= index < len(self.dataset)):
+                return False
+            # Check that the cached graph can be loaded
+            torch.load(f'{cached_graph}/{index}.pt', weights_only=False)
+            return True
+        except Exception:
+            return False
+
     def __getitem__(self, index):
         data = self.dataset[index]
         question = f'Question: {data["question"]}\nAnswer: '
