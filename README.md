@@ -81,18 +81,25 @@ python -m src.dataset.preprocess.webqsp
 
 
 ### 🔭 Varying Subgraph Retrieval Methods: 
-We implemented two subgraph retrieval methods, K-hop and Personalized PageRank (PPR), and evaluated their performance using the SceneGraphs and WebQSP datasets.
+We implemented two subgraph retrieval methods, K-hop and Personalized PageRank (PPR), and evaluated their performance using a sampled WebQSP dataset (see Colab below).
 
 ```
-## SceneGraphs
-python -m src.dataset.scene_graphs --retrieval_method ppr
-python -m src.dataset.scene_graphs --retrieval_method ppr
-
 ## WebQSP
-python -m src.dataset.webqsp --retrieval_method k-hop
-python -m src.dataset.webqsp --retrieval_method k-hop
+python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation linear
+python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation exponential
+python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation equal
 
+python -m src.dataset.webqsp_sample --retrieval_method k_hop
+
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode proportional
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation linear
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation exponential
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation equal
+
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode proportional --pcst
+python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation linear --pcst
 ```
+
 ### 🔭 Varying Subgraph Encoder Type:
 We implemented two graph neural network (GNN) architectures for the G-retriever architecture, GraphSAGE and the Graph Isomorphism Network (GIN), and evaluated their performance using the ExplaGraphs and WebQSP benchmark datasets.
 
@@ -162,9 +169,9 @@ python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False
 ```
 - [GraphLLMPromptTuning model using WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Tuning-G-Retriever-LLM-LoRA--VmlldzoxNTI4NTM4NQ?accessToken=y16u59kzx8o5335rwzjqsjfr6bb7zfstfc044w8m8vxeaiai7q4ms3krft1jp3u9)
 
-## 🔥 Demo in sample dataset:
+## 🔥 Colab Analysis using sample dataset:
 
-Because the full end-to-end ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo analyzes **Varying Subgraph Retrieval Methods** on a sample dataset using a Colab instance equipped with one A100 80GB GPU.
+Because the full end-to-end ablative analysis requires 2 A100 80GB GPUs, we developed a lighter weight version using a single A100 80GB GPU runnable in Colab. This Colab analyzes **Varying Subgraph Retrieval Methods** on a sampled dataset. Note that since the data is sampled, it is subject to underfitting when compared to running against the full dataset.
 
 The Colab notebook is available here: 
 <table align="center">
