@@ -38,7 +38,7 @@ export WANDB_API_KEY=<your_api_key>
 
 ## :pushpin: Version tools
 
-Testing and implementation of this project were conducted on a system featuring **dual A100 80GB GPUs**. To ensure reproducible results for the ablative analysis, this **hardware configuration must be utilized**.
+All End-to-End Testing and implementation of this project were conducted on a system featuring **dual A100 80GB GPUs** with the exception of the **ablation analysis for the subgraph retrieval methods**, which was conducted on a single A100 80GB GPU. To ensure reproducible results for the ablative analysis, this **hardware configuration must be utilized**.
 
 Key software versions used:
 
@@ -58,9 +58,29 @@ python -c "import torch; print(torch.version.cuda)"
 ## ✅ How to replicate the ablative analysis
 
 Each component of the ablative analysis is presented in its own dedicated section. For full reproducibility, we include:
+
 - **A brief description of the experiment's goal**.
-- **The specific command needed for execution**.
-- **A W&B link to access the live metrics, logs, and definitive results**.
+- **The specific command/instructions needed for execution**.
+- **A Weights & Biases link to access the live metrics, logs, and definitive results**.
+
+
+### 🔭 Varying Subgraph Retrieval Methods:
+
+We conducted an ablative analysis to compare the performance of three subgraph retrieval methods: K-hop, Personalized PageRank (PPR), and PPR + Prize-Collecting Steiner Tree (PCST).
+
+Evaluation was performed using a sampled subset of the WebQSP dataset. It is important to note that, due to the sampling, the absolute performance metrics are subject to underfitting compared to results obtained on the full dataset. Our primary objective, however, is to provide a relative comparison of the retrieval methods.
+
+The analysis was executed on a **single NVIDIA A100 80GB GPU instance**, accessible via a Colab environment.
+
+The Colab notebook is available here: 
+<table align="center">
+  <td>
+    <a target="_blank" href="https://colab.research.google.com/drive/1rHoSkz0eV-ACvFIPXXObyZsLKcyxbrPe"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
+  </td>
+</table>
+
+- [WebQSP - Subgraph Retrieval Ablation](https://api.wandb.ai/links/florenciopaucar-uni/we6r7usf)
+
 
 ### 🔭 Data Preprocessing:
 
@@ -79,26 +99,6 @@ python -m src.dataset.preprocess.webqsp
 
 ```
 
-
-### 🔭 Varying Subgraph Retrieval Methods: 
-We implemented two subgraph retrieval methods, K-hop and Personalized PageRank (PPR), and evaluated their performance using a sampled WebQSP dataset (see Colab below).
-
-```
-## WebQSP
-python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation linear
-python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation exponential
-python -m src.dataset.webqsp_sample --retrieval_method pcst --prize_allocation equal
-
-python -m src.dataset.webqsp_sample --retrieval_method k_hop
-
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode proportional
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation linear
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation exponential
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation equal
-
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode proportional --pcst
-python -m src.dataset.webqsp_sample --retrieval_method ppr --tele_mode top_k --prize_allocation linear --pcst
-```
 
 ### 🔭 Varying Subgraph Encoder Type:
 We implemented two graph neural network (GNN) architectures for the G-retriever architecture, GraphSAGE and the Graph Isomorphism Network (GIN), and evaluated their performance using the ExplaGraphs and WebQSP benchmark datasets.
@@ -125,9 +125,7 @@ We benchmarked a set of large language models (LLMs) with similar feature dimens
 ```
 ## LLM model comparisons
 ### Gemma
-#### a) Inference only: Question-Only
-python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name gemma_7b_it --max_txt_len 0
-#### b) Tuned llm: g-retriever + finetuning with lora
+#### a) Tuned llm: g-retriever + finetuning with lora
 python train.py --dataset expla_graphs --model_name graph_llm --llm_frozen False --llm_model_name gemma_7b
 python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm_model_name gemma_7b
 
@@ -169,13 +167,4 @@ python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False
 ```
 - [GraphLLMPromptTuning model using WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Tuning-G-Retriever-LLM-LoRA--VmlldzoxNTI4NTM4NQ?accessToken=y16u59kzx8o5335rwzjqsjfr6bb7zfstfc044w8m8vxeaiai7q4ms3krft1jp3u9)
 
-## 🔥 Colab Analysis using sample dataset:
 
-Because the full end-to-end ablative analysis requires 2 A100 80GB GPUs, we developed a lighter weight version using a single A100 80GB GPU runnable in Colab. This Colab analyzes **Varying Subgraph Retrieval Methods** on a sampled dataset. Note that since the data is sampled, it is subject to underfitting when compared to running against the full dataset.
-
-The Colab notebook is available here: 
-<table align="center">
-  <td>
-    <a target="_blank" href="https://colab.research.google.com/drive/1rHoSkz0eV-ACvFIPXXObyZsLKcyxbrPe"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
-  </td>
-</table>
