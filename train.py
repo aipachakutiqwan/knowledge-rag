@@ -28,28 +28,18 @@ def main(args):
 
     seed_everything(seed=args.seed)
     print(args)
-    print(f"===============================================>ciao sono qua 1")
 
     dataset = load_dataset[args.dataset]()
     idx_split = dataset.get_idx_split()
-    print(f"===============================================>ciao sono qua 2")
-
 
     # Step 2: Build Node Classification Dataset
     train_dataset = [dataset[i] for i in idx_split['train']]
-    print(f"===============================================>ciao sono qua 3")
-
-    val_dataset = [dataset[i] for i in idx_split['val'] if i in dataset]
-    print(f"===============================================>ciao sono qua 4")
-
-    if len(val_dataset) - len(idx_split['val']) > 1: # Allow for a single missing index
-        raise ValueError(f"There is more than a single missing index in the val dataset: {[i for i in idx_split['val'] if i not in dataset]}")
+    val_dataset = [dataset[i] for i in idx_split['val']]
     test_dataset = [dataset[i] for i in idx_split['test']]
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, drop_last=True, pin_memory=True, shuffle=True, collate_fn=collate_fn)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, drop_last=False, pin_memory=True, shuffle=False, collate_fn=collate_fn)
     test_loader = DataLoader(test_dataset, batch_size=args.eval_batch_size, drop_last=False, pin_memory=True, shuffle=False, collate_fn=collate_fn)
-    print(f"===============================================>ciao sono qua 5")
 
     # Step 3: Build Model
     args.llm_model_path = dict_llm_model_path[args.llm_model_name]
