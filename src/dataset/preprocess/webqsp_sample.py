@@ -108,9 +108,9 @@ def step_two(sample_size: int, seed: int):
 
 def sample_dataset(dataset, sample_size: int, seed: int):
     np.random.seed(seed)
-    train_size = min(int(sample_size * 2.4), len(dataset['train']))
-    val_size = min(int(sample_size * 0.8), len(dataset['validation']))
-    test_size = min(int(sample_size * 0.8), len(dataset['test']))
+    train_size = min(1, int(sample_size / 12 * 5), len(dataset['train']))
+    val_size = min(1, int(sample_size / 12 * 3), len(dataset['validation']))
+    test_size = min(1, int(sample_size / 12 * 4), len(dataset['test']))
 
     train_indices = np.random.choice(len(dataset['train']), size=train_size, replace=False)
     val_indices = np.random.choice(len(dataset['validation']), size=val_size, replace=False)
@@ -131,14 +131,14 @@ def parse_args():
     parser.add_argument(
         "--sample_size",
         type=int,
-        default=50,
-        help="Number of examples to sample from each split (train/val/test).",
+        default=600,
+        help="Number of total samples to sample from the dataset. Must match dataset/webqsp_sample.py.",
     )
     parser.add_argument(
         "--seed",
         type=int,
         default=42,
-        help="Random seed for numpy sampling.",
+        help="Random seed for numpy sampling. Must match dataset/webqsp_sample.py.",
     )
     return parser.parse_args()
 
