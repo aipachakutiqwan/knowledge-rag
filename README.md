@@ -150,16 +150,6 @@ python train.py --dataset webqsp --model_name graph_llm --llm_frozen False --llm
 - [Diverse LLM Tuning: G-retriever + finetuning with Lora in ExplaGraphs](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/ExplaGraphs-LLMs-G-Retriever-Lora--VmlldzoxNTI3MzUwMw?accessToken=bge6arszopkqssgseocg4mpu74nkbs1tgw2pzwzyeohdgltm03qm1xo82hgy6inm)
 - [Diverse LLM Tuning: G-retriever + finetuning with Lora in WebQSP](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-LLMs-G-Retriever-Lora--VmlldzoxNTI4MjIyMQ?accessToken=pizj2pshzwmc8q87xgdkqwawn1qn7ldmczewnwaxwyi80tu4jk6809v5q7t0cwmx)
 
-### 🔭 Prompt Tuning:
-We implemented a specific system prompt template and measured its effect on performance when applied to the WebQSP knowledge graph question answering dataset.
-
-```
-## LLM Prompt Templates
-### Frozen llm + prompt tuning: prompt tuning: Keeping the parameters of the LLM frozen and adapting only the prompt.
-python train.py --dataset webqsp --model_name pt_llm  
-
-```
-- [Prompt template tuning WebQSP with LLM frozen](https://wandb.ai/florenciopaucar-uni/project_g_retriever/reports/WebQSP-Prompt-Template-Frozen-LLM-Prompt-Tuning---VmlldzoxNTI4NDgzMg?accessToken=qletj0g7494img4qg28sodj3ma59a82xblsq1z12tv22urgz8gev3nawfs1ahb6y)
 
 ### 🔭 New Graph RAG Model configuration:
 We propose a novel model configuration that integrates prompt tuning and G-Retriever with LoRA-based Large Language Model (LLM) fine-tuning. We then measure its performance using the WebQSP knowledge graph question answering dataset.
@@ -174,11 +164,11 @@ python train.py --dataset webqsp --model_name graph_llm_pt --llm_frozen False
 
 ## 🔥 Demo in sample dataset:
 
-Because the full ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo simulates the analysis on a sample dataset using a Colab instance equipped with an A100 80GB GPU.
+Because the full end-to-end ablative analysis requires 2 A100 80GB GPUs. We developed a demonstration version. This demo analyzes **Varying Subgraph Retrieval Methods** on a sample dataset using a Colab instance equipped with one A100 80GB GPU.
 
 The Colab notebook is available here: 
 <table align="center">
   <td>
-    <a target="_blank" href="https://colab.research.google.com/github/google-gemini/cookbook/blob/main/gemini-2/video_understanding.ipynb"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
+    <a target="_blank" href="https://colab.research.google.com/drive/1rHoSkz0eV-ACvFIPXXObyZsLKcyxbrPe"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
   </td>
 </table>
