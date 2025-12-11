@@ -34,7 +34,9 @@ def main(args):
 
     # Step 2: Build Node Classification Dataset
     train_dataset = [dataset[i] for i in idx_split['train']]
-    val_dataset = [dataset[i] for i in idx_split['val']]
+    val_dataset = [dataset[i] for i in idx_split['val'] if i in dataset]
+    if len(val_dataset) - len(idx_split['val']) > 1: # Allow for a single missing index
+        raise ValueError(f"There is more than a single missing index in the val dataset: {[i for i in idx_split['val'] if i not in dataset]}")
     test_dataset = [dataset[i] for i in idx_split['test']]
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, drop_last=True, pin_memory=True, shuffle=True, collate_fn=collate_fn)
