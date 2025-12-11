@@ -38,7 +38,7 @@ export WANDB_API_KEY=<your_api_key>
 
 ## :pushpin: Version tools
 
-All End-to-End Testing and implementation of this project were conducted on a system featuring **dual A100 80GB GPUs** with the exception of the **ablation analysis for the subgraph retrieval methods**, which was conducted on a single A100 80GB GPU. To ensure reproducible results for the ablative analysis, this **hardware configuration must be utilized**.
+All end-to-end testing and implementation of this project were conducted on a system featuring **dual A100 80GB GPUs** with the exception of the **ablation analysis for the subgraph retrieval methods**, which was conducted on a single A100 80GB GPU. To ensure reproducible results for the ablative analysis, this **hardware configuration must be utilized**.
 
 Key software versions used:
 
