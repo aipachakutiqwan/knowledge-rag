@@ -8,7 +8,7 @@ Usage:
 
 import sys
 import argparse
-from src.utils.evaluate import list_indices
+from evaluate import list_indices
 
 
 def main():
