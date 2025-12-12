@@ -93,9 +93,13 @@ python -m src.dataset.expla_graphs
 
 ## SceneGraphs
 python -m src.dataset.preprocess.scene_graphs
+python -m src.dataset.scene_graphs
+
 
 ## WebQSP
 python -m src.dataset.preprocess.webqsp
+python -m src.dataset.webqsp
+
 
 ```
 
