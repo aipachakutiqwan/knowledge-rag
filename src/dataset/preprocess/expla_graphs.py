@@ -2,7 +2,6 @@ import re
 import os
 import torch
 import pandas as pd
-import argparse
 
 from tqdm import tqdm
 from torch_geometric.data.data import Data
@@ -35,14 +34,12 @@ def textualize_graph(graph):
     return nodes, edges
 
 
-def step_one(data_sample_rate):
+def step_one():
     # generate textual graphs
     os.makedirs(f'{path}/nodes', exist_ok=True)
     os.makedirs(f'{path}/edges', exist_ok=True)
 
-    sampled_dataset = dataset.sample(frac=data_sample_rate) if data_sample_rate < 1.0 else dataset
-
-    for i, row in tqdm(sampled_dataset.iterrows(), total=len(sampled_dataset)):
+    for i, row in tqdm(dataset.iterrows(), total=len(dataset)):
         nodes, edges = textualize_graph(row['graph'])
         nodes.to_csv(f'{path}/nodes/{i}.csv', index=False, columns=['node_id', 'node_attr'])
         edges.to_csv(f'{path}/edges/{i}.csv', index=False, columns=['src', 'edge_attr', 'dst'])
@@ -69,11 +66,6 @@ def step_two():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--data_sample_rate', type=float, default=1.0, 
-                        help='Fraction of data to sample (between 0 and 1)')
-    args = parser.parse_args()
-
-    step_one(args.data_sample_rate)
+    step_one()
     step_two()
     generate_split(len(dataset), f'{path}/split')
